@@ -1,0 +1,32 @@
+name: Build Release Asset
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create dist folder
+        run: mkdir dist
+
+      - name: Copy selected files
+        run: |
+          cp vscode-portable-updater.ps1 dist/
+          cp README.md dist/
+          cp LICENSE dist/
+
+      - name: Create ZIP archive
+        run: |
+          cd dist
+          zip ../vscode-portable-updater-${{ github.ref_name }}.zip .
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: vscode-portable-updater-${{ github.ref_name }}.zip

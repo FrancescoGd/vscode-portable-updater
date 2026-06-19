@@ -12,7 +12,7 @@
 .NOTES
     Author   : Francesco Giordano
     Email    : inuyaksa@geocities.com
-    Version  : 1.0.0
+    Version  : 1.0.2
     License  : MIT
 
 .LINK
@@ -25,7 +25,7 @@ param()
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$basePath   = $PSScriptRoot
+$basePath = $PSScriptRoot
 $vscodePath = Join-Path -Path $basePath -ChildPath 'VSCode'
 $backupPath = Join-Path -Path $basePath -ChildPath 'VSCode-bak'
 
@@ -94,7 +94,7 @@ if (-not $zipVersions) {
 
 # Sort by version-descending and pick the most recent
 $selected = $zipVersions | Sort-Object -Property Version -Descending | Select-Object -First 1
-$zipFile  = $selected.File
+$zipFile = $selected.File
 
 if ($allZips.Count -gt 1) {
     Write-Host "Found $($allZips.Count) corresponding ZIP:" -ForegroundColor Yellow
@@ -145,7 +145,7 @@ catch {
 Write-Host "[3/4] Copying 'VSCode-bak\data' -> 'VSCode\data' ..." -ForegroundColor Yellow
 
 $sourceData = Join-Path -Path $backupPath -ChildPath 'data'
-$destData   = Join-Path -Path $vscodePath -ChildPath 'data'
+$destData = Join-Path -Path $vscodePath -ChildPath 'data'
 
 if (-not (Test-Path -Path $sourceData -PathType Container)) {
     Write-Warning "'$sourceData' directory doesn't exist inside the backup, nothing to copy."
