@@ -12,7 +12,7 @@
 .NOTES
     Author   : Francesco Giordano
     Email    : inuyaksa@geocities.com
-    Version  : 1.0.2
+    Version  : 1.0.3
     License  : MIT
 
 .LINK
@@ -66,7 +66,7 @@ if (Test-Path -Path $backupPath) {
 }
 
 # --- Find and select the correct ZIP based on version number ---
-$allZips = Get-ChildItem -Path $basePath -Filter 'VSCode-win32-x64-*.zip' -File
+$allZips = @(Get-ChildItem -Path $basePath -Filter 'VSCode-win32-x64-*.zip' -File)
 
 if (-not $allZips -or $allZips.Count -eq 0) {
     Write-Error "No 'VSCode-win32-x64-*.zip' file found in '$basePath'."
@@ -74,18 +74,18 @@ if (-not $allZips -or $allZips.Count -eq 0) {
 }
 
 # Create a list of every ZIP and version number rejecting non parseable files
-$zipVersions = $allZips | ForEach-Object {
-    $ver = Get-ZipSemanticVersion -FileName $_.Name
-    if ($ver) {
-        [PSCustomObject]@{
-            File    = $_
-            Version = $ver
+$zipVersions = @($allZips | ForEach-Object {
+        $ver = Get-ZipSemanticVersion -FileName $_.Name
+        if ($ver) {
+            [PSCustomObject]@{
+                File    = $_
+                Version = $ver
+            }
         }
-    }
-    else {
-        Write-Warning "'$($_.Name)' ignored: cannot extract version from name."
-    }
-}
+        else {
+            Write-Warning "'$($_.Name)' ignored: cannot extract version from name."
+        }
+    })
 
 if (-not $zipVersions) {
     Write-Error "Cannot find a ZIP with a valid semantic version."

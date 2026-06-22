@@ -24,7 +24,7 @@ jobs:
       - name: Create ZIP archive
         run: |
           cd dist
-          zip ../vscode-portable-updater-${{ github.ref_name }}.zip .
+          zip -r ../vscode-portable-updater-${{ github.ref_name }}.zip .
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
