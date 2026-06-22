@@ -12,7 +12,7 @@
 .NOTES
     Author   : Francesco Giordano
     Email    : inuyaksa@geocities.com
-    Version  : 1.0.3
+    Version  : 1.0.4
     License  : MIT
 
 .LINK
